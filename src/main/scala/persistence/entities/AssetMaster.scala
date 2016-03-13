@@ -54,6 +54,7 @@ class AssetMasterTable(tag: Tag) extends BaseTable[Asset](tag, "asset_master") {
     asset_desc,
     status_ck,
     status_date,
+    serial_number_u,
     asset_type_fk,
     model_number,
     manufacturer_fk,

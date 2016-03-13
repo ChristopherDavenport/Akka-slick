@@ -14,7 +14,7 @@ case class Asset_Owner (
                           orgn_code: Option[String],
                           activity_date: Option[Date],
                           user_id: Option[String],
-                          asset_owner_group_fk: Long
+                          asset_owner_group_fk: Option[Long]
                         )
 
 class AssetOwnersTable(tag: Tag) extends BaseTable[Asset_Owner](tag, "asset_owner") {
