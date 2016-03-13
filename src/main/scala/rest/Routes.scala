@@ -10,6 +10,7 @@ import persistence.entities.{Printer, SimpleSupplier, Supplier}
 import utils.{PersistenceModule, Configuration}
 import JsonProtocol._
 import SprayJsonSupport._
+import spray.json._
 import scala.util.{Failure, Success}
 
 class Routes(modules: Configuration with PersistenceModule) {
@@ -43,16 +44,16 @@ class Routes(modules: Configuration with PersistenceModule) {
     }
   }
 
-  private val printerRouteAll = pathPrefix("printers"){
-    get{
-//      onComplete(modules.printersDal.findByFilter(these => these).mapTo[Option[Printer]]) {
-//        case Success(printerOpt) => printerOpt match {
-//          case Some(printers) => complete(printers.toString)
-//          case None => complete("No printers Found")
-//        }
-//        case Failure(ex) => complete("FAIL!")
-//      }
-      complete("Not implemented exception")
+  private val printerRouteAll = pathPrefix("printers" / IntNumber){(printId) =>
+    get {
+      onComplete((modules.printersDal.findById(printId)).mapTo[Option[Printer]]) {
+        case Success(printerOpt) =>
+          printerOpt match {
+          case Some(print) => complete( print.toJson )
+          case None => complete(NotFound, s"The supplier doesn't exist")
+        }
+        case Failure(ex) => complete(InternalServerError, s"An error occurred: ${ex.getMessage}")
+      }
     }
   }
 
