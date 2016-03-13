@@ -10,8 +10,17 @@ object Main extends App {
   implicit val materializer = ActorMaterializer()
   implicit val ec = modules.system.dispatcher
 
+  modules.asset_groupsDal.createTable()
+  modules.asset_mastersDal.createTable()
+  modules.asset_owner_groupsDal.createTable()
+  modules.asset_ownersDal.createTable()
+  modules.asset_typesDal.createTable()
+  modules.buildingsDal.createTable()
+  modules.manufacturersDal.createTable()
+  modules.vendorsDal.createTable()
   modules.suppliersDal.createTable()
   modules.printersDal.createTable()
+
 
   val bindingFuture = Http().bindAndHandle(new Routes(modules).routes, "localhost", 8080)
  

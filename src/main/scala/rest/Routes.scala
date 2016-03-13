@@ -6,7 +6,7 @@ import akka.http.scaladsl.server.Directives._
 import akka.http.scaladsl.server.Route
 import akka.http.scaladsl.server.RouteResult.Complete
 import entities.JsonProtocol
-import persistence.entities.{SimpleSupplier, Supplier}
+import persistence.entities.{Printer, SimpleSupplier, Supplier}
 import utils.{PersistenceModule, Configuration}
 import JsonProtocol._
 import SprayJsonSupport._
@@ -14,7 +14,7 @@ import scala.util.{Failure, Success}
 
 class Routes(modules: Configuration with PersistenceModule) {
 
-  private val supplierGetRoute = path("supplier" / IntNumber) { (supId) =>
+  private val supplierGetRoute = pathPrefix("supplier" / IntNumber) { (supId) =>
     get {
       onComplete((modules.suppliersDal.findById(supId)).mapTo[Option[Supplier]]) {
         case Success(supplierOpt) => supplierOpt match {
@@ -26,7 +26,7 @@ class Routes(modules: Configuration with PersistenceModule) {
     }
   }
 
-  private val supplierPostRoute = path("/supplier") {
+  private val supplierPostRoute = pathPrefix("/supplier") {
     post {
       entity(as[SimpleSupplier]) { supplierToInsert => onComplete((modules.suppliersDal.insert(Supplier(0, supplierToInsert.name, supplierToInsert.desc)))) {
         // ignoring the number of insertedEntities because in this case it should always be one, you might check this in other cases
@@ -35,11 +35,29 @@ class Routes(modules: Configuration with PersistenceModule) {
       }
       }
     }
+
+  }
+  private val defaultRoute = path(""){
+    get{
+      complete("This is not the string you are looking for")
+    }
+  }
+
+  private val printerRouteAll = pathPrefix("printers"){
+    get{
+//      onComplete(modules.printersDal.findByFilter(these => these).mapTo[Option[Printer]]) {
+//        case Success(printerOpt) => printerOpt match {
+//          case Some(printers) => complete(printers.toString)
+//          case None => complete("No printers Found")
+//        }
+//        case Failure(ex) => complete("FAIL!")
+//      }
+      complete("Not implemented exception")
+    }
   }
 
 
-
-  val routes: Route = supplierPostRoute ~ supplierGetRoute
+  val routes: Route = supplierPostRoute ~ supplierGetRoute ~ defaultRoute ~ printerRouteAll
 
 }
 
