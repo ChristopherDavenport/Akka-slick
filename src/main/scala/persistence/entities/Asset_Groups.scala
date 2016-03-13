@@ -15,7 +15,7 @@ case class Asset_Group(
                       activity_date: Option[Date],
                       user_id: Option[String],
                       ip_rpt_ck: Option[String]
-                      )
+                      ) extends BaseEntity
 
   class Asset_GroupsTable(tag: Tag) extends BaseTable[Asset_Group](tag, "Asset_Groups") {
     def asset_group_pk = column[String]("asset_group_pk")

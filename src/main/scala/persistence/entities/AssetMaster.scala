@@ -25,7 +25,7 @@ case class Asset (
                    user_id: Option[String]= None,
                    encrypted_ck: Option[String]= None,
                    last_inv_verify: Option[Date]= None
-                 )
+                 ) extends BaseEntity
 
 class AssetMasterTable(tag: Tag) extends BaseTable[Asset](tag, "asset_master") {
   def asset_tag_pk = column[String]("asset_tag_pk")

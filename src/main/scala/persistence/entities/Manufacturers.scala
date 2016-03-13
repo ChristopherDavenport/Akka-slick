@@ -14,7 +14,7 @@ case class Manufacturer(
                         activity_date: Option[Date],
                         user_id: Option[String],
                         notes: Option[String]
-                        )
+                        ) extends BaseEntity
 
 class ManufacturersTable(tag: Tag) extends BaseTable[Manufacturer](tag, "manufacturers") {
   def manufacturer_pk = column[String]("manufacturer_pk")

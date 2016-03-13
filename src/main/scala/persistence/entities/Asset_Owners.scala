@@ -15,7 +15,7 @@ case class Asset_Owner (
                           activity_date: Option[Date],
                           user_id: Option[String],
                           asset_owner_group_fk: Option[Long]
-                        )
+                        ) extends BaseEntity
 
 class AssetOwnersTable(tag: Tag) extends BaseTable[Asset_Owner](tag, "asset_owner") {
   def asset_owner_group_pk = column[String]("asset_owner_pk")

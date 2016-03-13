@@ -16,7 +16,7 @@ case class Vendor(
                   activity_date: Option[Date],
                   user_id: Option[String],
                   customer_numbers: Option[String]
-                  )
+                  ) extends BaseEntity
 class VendorsTable(tag: Tag) extends BaseTable[Vendor](tag, "vendors") {
   def vendor_pk = column[String]("vendor_pk")
   def status_ck = column[String]("status_ck")

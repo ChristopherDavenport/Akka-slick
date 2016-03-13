@@ -11,7 +11,7 @@ case class Building(
                     building_desc: String,
                     activity_date: Option[Date],
                     user_id: Option[String]
-                    )
+                    ) extends BaseEntity
 
 class BuildingsTable(tag: Tag) extends BaseTable[Building](tag, "buildings") {
   def building_code_pk = column[String]("building_code_pk")
