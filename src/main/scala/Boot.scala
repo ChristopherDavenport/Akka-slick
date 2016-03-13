@@ -1,6 +1,6 @@
 import akka.http.scaladsl.Http
 import akka.stream.ActorMaterializer
-import rest.{Routes, SupplierRoutes}
+import rest.{Routes}
 import utils.{PersistenceModuleImpl, ActorModuleImpl, ConfigurationModuleImpl}
 
 object Main extends App {
