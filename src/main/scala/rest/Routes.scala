@@ -4,6 +4,7 @@ import akka.http.scaladsl.marshallers.sprayjson.SprayJsonSupport
 import akka.http.scaladsl.model.StatusCodes._
 import akka.http.scaladsl.server.Directives._
 import akka.http.scaladsl.server.Route
+import akka.http.scaladsl.server.RouteResult.Complete
 import entities.JsonProtocol
 import persistence.entities.{SimpleSupplier, Supplier}
 import utils.{PersistenceModule, Configuration}
@@ -11,9 +12,9 @@ import JsonProtocol._
 import SprayJsonSupport._
 import scala.util.{Failure, Success}
 
-class SupplierRoutes(modules: Configuration with PersistenceModule) {
+class Routes(modules: Configuration with PersistenceModule) {
 
-  private val supplierGetRoute = path("/supplier" / IntNumber) { (supId) =>
+  private val supplierGetRoute = path("supplier" / IntNumber) { (supId) =>
     get {
       onComplete((modules.suppliersDal.findById(supId)).mapTo[Option[Supplier]]) {
         case Success(supplierOpt) => supplierOpt match {
@@ -35,6 +36,8 @@ class SupplierRoutes(modules: Configuration with PersistenceModule) {
       }
     }
   }
+
+
 
   val routes: Route = supplierPostRoute ~ supplierGetRoute
 

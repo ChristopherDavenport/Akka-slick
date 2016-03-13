@@ -1,6 +1,6 @@
 import akka.http.scaladsl.Http
 import akka.stream.ActorMaterializer
-import rest.SupplierRoutes
+import rest.{Routes, SupplierRoutes}
 import utils.{PersistenceModuleImpl, ActorModuleImpl, ConfigurationModuleImpl}
 
 object Main extends App {
@@ -13,7 +13,7 @@ object Main extends App {
   modules.suppliersDal.createTable()
   modules.printersDal.createTable()
 
-  val bindingFuture = Http().bindAndHandle(new SupplierRoutes(modules).routes, "localhost", 8080)
+  val bindingFuture = Http().bindAndHandle(new Routes(modules).routes, "localhost", 8080)
  
   println(s"Server online at http://localhost:8080/")
 

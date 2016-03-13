@@ -4,7 +4,7 @@ import akka.actor.{ActorPath, ActorSelection, Props, ActorRef}
 import persistence.dal._
 import slick.backend.DatabaseConfig
 import slick.driver.{JdbcProfile}
-import persistence.entities.{Printer, PrintersTable, SuppliersTable, Supplier}
+import persistence.entities._
 import slick.lifted.TableQuery
 
 
@@ -20,6 +20,7 @@ trait DbModule extends Profile{
 trait PersistenceModule {
 	val suppliersDal: BaseDal[SuppliersTable,Supplier]
 	val printersDal: BaseDal[PrintersTable, Printer]
+	val asset_owner_groupsDal:BaseDal[AssetOwnerGroupsTable, AssetOwnerGroup]
 }
 
 
@@ -35,7 +36,7 @@ trait PersistenceModuleImpl extends PersistenceModule with DbModule{
 
 	override val suppliersDal = new BaseDalImpl[SuppliersTable,Supplier](TableQuery[SuppliersTable]) {}
 	override val printersDal = new BaseDalImpl[PrintersTable, Printer](TableQuery[PrintersTable]) {}
-
+	override val asset_owner_groupsDal = new BaseDalImpl[AssetOwnerGroupsTable, AssetOwnerGroup](TableQuery[AssetOwnerGroupsTable]) {}
 	val self = this
 
 }
