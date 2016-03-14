@@ -1,5 +1,5 @@
-# slick-akka-http
-The Slick Akka Http is a very simple json rest api showing one way of using akka http with [slick 3](https://github.com/slick/slick) library for database access.
+# Asset-Management Restful Backend
+Very simple json rest api showing one way of using akka http with [slick 3](https://github.com/slick/slick) library for database access.
 
 
 It supports the following features:
@@ -17,32 +17,23 @@ Utils:
 * Typesafe config for property management
 * Typesafe Scala Logging (LazyLogging)
 
-The project was thought to be used as an activator template.
 
 #Running
 
-The database pre-configured is an h2, so you just have to:
+The database pre-configured for postgres, so you just have to:
 
 
         $ sbt run
 
-#Testing
-
-To run all tests (routes and persistence tests):
-
-
-        $ sbt test
-
 #Using
 
-	curl --request POST localhost:8080/supplier -H "Content-type: application/json" --data "{\"name\" : \"sup1\",\"desc\" : \"low prices\"}"
 
-	curl localhost:8080/supplier/1
+	
+	curl localhost:8080/printers/1
 
 #TODO
 
-Swagger
 
 #Credits
 
-To make this template, I just mixed the tutorials and templates, so credits for akka and slick guys.
+Akka-Slick template for getting me started.
