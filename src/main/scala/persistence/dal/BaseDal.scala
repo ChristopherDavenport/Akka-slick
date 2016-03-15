@@ -19,6 +19,7 @@ trait BaseDal[T,A] {
   def deleteById(ids : Seq[Long]): Future[Int]
   def deleteByFilter[C : CanBeQueryCondition](f:  (T) => C): Future[Int]
   def createTable() : Future[Unit]
+  def dropTable() : Future[Unit]
 }
 
 class BaseDalImpl[T <: BaseTable[A], A <: BaseEntity](tableQ: TableQuery[T])(implicit val db: JdbcProfile#Backend#Database,implicit val profile: JdbcProfile) extends BaseDal[T,A] with Profile with DbModule {
@@ -43,7 +44,7 @@ class BaseDalImpl[T <: BaseTable[A], A <: BaseEntity](tableQ: TableQuery[T])(imp
   }
 
   override def update(rows: Seq[A]): Future[Unit] = {
-    db.run(DBIO.seq((rows.filter(_.isValid).map(r => tableQ.filter(_.id === r.id).update(r))): _*))
+    db.run(DBIO.seq(rows.filter(_.isValid).map(r => tableQ.filter(_.id === r.id).update(r)): _*))
   }
 
   override def findById(id: Long): Future[Option[A]] = {
@@ -68,6 +69,10 @@ class BaseDalImpl[T <: BaseTable[A], A <: BaseEntity](tableQ: TableQuery[T])(imp
 
   override def createTable() : Future[Unit] = {
     db.run(DBIO.seq(tableQ.schema.create))
+  }
+
+  override def dropTable() : Future[Unit] = {
+    db.run(DBIO.seq(tableQ.schema.drop))
   }
 
 }
