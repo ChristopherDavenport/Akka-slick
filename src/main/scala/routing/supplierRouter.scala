@@ -9,6 +9,7 @@ import akka.http.scaladsl.server.Directives._
 import persistence.entities.{SimpleSupplier, Supplier}
 import SprayJsonSupport._
 import spray.json._
+import scala.concurrent.Future
 import scala.util.{Failure, Success}
 import JsonProtocol._
 
@@ -25,8 +26,13 @@ trait supplierRouter extends HttpServiceBase{
           complete("This is the root ( / ) supplier page")
         } ~
         post {
-          entity(as[SimpleSupplier]) { supplierToInsert => onComplete(suppliersDal.insert(
-            Supplier(0, supplierToInsert.name, supplierToInsert.desc))) {
+          entity(as[Seq[SimpleSupplier]]) { suppliersToInsert =>
+            onComplete(
+              suppliersDal.insert (
+                for (supplier <- suppliersToInsert) yield
+                  Supplier(0, supplier.name, supplier.desc)
+              )
+            ) {
               // ignoring the number of insertedEntities because in this case it should always be one, you might check this in other cases
               case Success(insertedEntities) => complete(Created)
               case Failure(ex) => complete(InternalServerError, s"An error occurred: ${ex.getMessage}")
