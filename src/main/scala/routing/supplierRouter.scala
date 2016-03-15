@@ -23,7 +23,10 @@ trait supplierRouter extends HttpServiceBase{
     pathPrefix("supplier") {
       pathEndOrSingleSlash{
         get {
-          complete("This is the root ( / ) supplier page")
+          onComplete(suppliersDal.findAll){
+            case Success(suppliers) => complete(suppliers.toJson)
+            case Failure(ex) => complete(InternalServerError, s"An error occurred: ${ex.getMessage}")
+          }
         } ~
         post {
           entity(as[Seq[SimpleSupplier]]) { suppliersToInsert =>
