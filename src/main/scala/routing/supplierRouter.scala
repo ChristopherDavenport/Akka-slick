@@ -52,6 +52,16 @@ trait supplierRouter extends HttpServiceBase{
             }
             case Failure(ex) => complete(InternalServerError, s"An error occurred: ${ex.getMessage}")
           }
+        } ~
+        put {
+          entity(as[Supplier]) { supplierToUpdate =>
+            onComplete(
+              suppliersDal.update(supplierToUpdate)
+            ) {
+              case Success(updatedEntity) => complete(Created)
+              case Failure(ex) => complete(InternalServerError, s"An error occurred: ${ex.getMessage}")
+            }
+          }
         }
       }
     }
