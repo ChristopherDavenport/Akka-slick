@@ -14,6 +14,7 @@ trait BaseDal[T,A] {
   def update(row : A): Future[Int]
   def update(rows : Seq[A]): Future[Unit]
   def findById(id : Long): Future[Option[A]]
+  def findByFilterToOne[C : CanBeQueryCondition](f: (T) => C) : Future[Option[A]]
   def findByFilter[C : CanBeQueryCondition](f: (T) => C): Future[Seq[A]]
   def findAll : Future[Seq[A]]
   def deleteById(id : Long): Future[Int]
@@ -50,6 +51,10 @@ class BaseDalImpl[T <: BaseTable[A], A <: BaseEntity](tableQ: TableQuery[T])(imp
 
   override def findById(id: Long): Future[Option[A]] = {
     db.run(tableQ.filter(_.id === id).result.headOption)
+  }
+
+  override def findByFilterToOne[C: CanBeQueryCondition](f: (T) => C): Future[Option[A]] = {
+    db.run(tableQ.withFilter(f).result.headOption)
   }
 
   override def findByFilter[C: CanBeQueryCondition](f: (T) => C): Future[Seq[A]] = {

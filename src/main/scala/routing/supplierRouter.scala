@@ -12,6 +12,8 @@ import spray.json._
 import scala.concurrent.Future
 import scala.util.{Failure, Success}
 import JsonProtocol._
+import slick.driver.H2Driver.api._
+
 
 /**
   * Created by chris on 3/14/16.
@@ -62,6 +64,15 @@ trait supplierRouter extends HttpServiceBase{
               case Failure(ex) => complete(InternalServerError, s"An error occurred: ${ex.getMessage}")
             }
           }
+        }
+      } ~
+      pathPrefix(Segment){ entered =>
+        onComplete(suppliersDal.findByFilterToOne(_.name === entered).mapTo[Option[Supplier]]){
+          case Success(supplierOpt) => supplierOpt match {
+            case Some(sup) => complete(sup.toJson)
+            case None => complete(NotFound, s"The supplier doesn't exist")
+          }
+          case Failure(ex) => complete(InternalServerError, s"An error occurred: ${ex.getMessage}")
         }
       }
     }
