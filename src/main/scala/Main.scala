@@ -1,11 +1,10 @@
 import akka.http.scaladsl.Http
 import akka.stream.ActorMaterializer
-import rest.Routes
-import utils.{PersistenceModuleImpl, ActorModuleImpl, ConfigurationModuleImpl}
+import utils.{RoutingModuleImpl, PersistenceModuleImpl, ActorModuleImpl, ConfigurationModuleImpl}
 
 object Main extends App {
   // configuring modules for application, cake pattern for DI
-  val modules = new ConfigurationModuleImpl  with ActorModuleImpl with PersistenceModuleImpl
+  val modules = new ConfigurationModuleImpl with ActorModuleImpl with PersistenceModuleImpl with RoutingModuleImpl
   implicit val system = modules.system
   implicit val materializer = ActorMaterializer()
   implicit val ec = modules.system.dispatcher
@@ -22,7 +21,7 @@ object Main extends App {
   modules.printersDal.createTable()
 
 
-  val bindingFuture = Http().bindAndHandle(new Routes(modules).routes, "localhost", 8080)
+  val bindingFuture = Http().bindAndHandle(modules.routes, "localhost", 8080)
  
   println(s"Server online at http://localhost:8080/")
 

@@ -10,5 +10,5 @@ trait ActorModule {
 
 trait ActorModuleImpl extends ActorModule {
   this: Configuration =>
-  val system = ActorSystem("akkingslick", config)
+  val system = ActorSystem("DavenportSystem", config)
 }

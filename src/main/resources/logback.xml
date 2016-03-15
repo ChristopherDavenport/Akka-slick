@@ -8,14 +8,14 @@
         </encoder>
     </appender>
     <logger name="slick.backend.DatabaseComponent.action" level="error"/>
-    <logger name="slick.jdbc" level="debug" />
+    <logger name="slick.jdbc" level="error" />
     <logger name="slick.ast" level="error" />
     <logger name="slick.memory" level="error" />
     <logger name="slick.relational" level="error" />
     <logger name="slick.compiler" level="error" />
     <logger name="com.wordnik" level="error" />
     <logger name="com.gettyimages" level="error" />
-    <root level="DEBUG">
+    <root level="error">
         <appender-ref ref="CONSOLE"/>
     </root>
 
