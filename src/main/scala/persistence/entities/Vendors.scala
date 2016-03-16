@@ -26,7 +26,12 @@ case class Vendor(id: Long,
                   customer_number: String
                  ) extends BaseEntity with ActivityEntity with CreatedEntity with StatusEntity with VendorEntity
 
-case class SimpleVendor(vendor_pk: String, banner_id: String, notes: String, customer_number: String) extends VendorEntity
+case class SimpleVendor(
+                         vendor_pk: String,
+                         banner_id: String,
+                         notes: String,
+                         customer_number: String
+                       ) extends VendorEntity
 
 class VendorsTable(tag: Tag) extends StandardTable[Vendor](tag, "vendors") {
   def vendor_pk = column[String]("vendor_pk")
