@@ -18,6 +18,6 @@ trait RoutingModuleImpl extends RoutesModule
   this: PersistenceModule =>
 
     val routes : Route = {
-      printerRouter ~ supplierRouter ~ homeRouter
+      printerRouter ~ supplierRouter ~ homeRouter ~ printerRouter
     }
 }
