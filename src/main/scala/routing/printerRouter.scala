@@ -9,6 +9,7 @@ import akka.http.scaladsl.server.Directives._
 import slick.driver.PostgresDriver.api._
 import spray.json._
 import scala.util.{Failure, Success}
+import org.joda.time.DateTime
 
 /**
   * Created by chris on 3/14/16.
@@ -31,7 +32,8 @@ trait printerRouter extends HttpServiceBase{
           post {
             entity(as[Seq[Printer]]) { printersToInsert =>
               onComplete(
-                printersDal.insert ( printersToInsert
+                printersDal.insert ( for (printer <- printersToInsert) yield
+                  Printer(0, printer.printer_pk, printer.printer_desc, printer.status_ck, activity_date = Some(new DateTime()))
                 )
               ) {
                 case Success(insertedEntities) => complete(Created)

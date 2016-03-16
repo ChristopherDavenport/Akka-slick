@@ -33,4 +33,5 @@ class PrintersTable(tag: Tag) extends BaseTable[Printer](tag, "printers") {
   def user_id = column[Option[String]]("user_id")
 
   def * = (id, printer_pk, printer_desc, status_ck, status_date , pages_per_min, charge_back, activity_date , user_id ) <> (Printer.tupled, Printer.unapply)
+  def idx = index("printer_pk", printer_pk, unique = true)
 }
