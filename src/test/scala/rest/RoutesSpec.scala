@@ -1,11 +1,9 @@
 //package rest
 //
 //import akka.http.scaladsl.marshallers.sprayjson.SprayJsonSupport
-//import entities.JsonProtocol
 //import persistence.entities._
 //import scala.concurrent.Future
 //import akka.http.scaladsl.model.StatusCodes._
-//import JsonProtocol._
 //import SprayJsonSupport._
 //
 //class RoutesSpec extends AbstractRestTest {

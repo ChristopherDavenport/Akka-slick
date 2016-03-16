@@ -1,10 +1,11 @@
 import akka.http.scaladsl.Http
 import akka.stream.ActorMaterializer
-import utils.{RoutingModuleImpl, PersistenceModuleImpl, ActorModuleImpl, ConfigurationModuleImpl}
+import utils._
 
 object Main extends App {
   // configuring modules for application, cake pattern for DI
-  val modules = new ConfigurationModuleImpl with ActorModuleImpl with PersistenceModuleImpl with RoutingModuleImpl
+  val modules = new ConfigurationModuleImpl with ActorModuleImpl
+    with PersistenceModuleImpl with RoutingModuleImpl with JsonModuleImpl
   implicit val system = modules.system
   implicit val materializer = ActorMaterializer()
   implicit val ec = modules.system.dispatcher

@@ -1,17 +1,13 @@
 package routing
 
 import akka.http.javadsl.server.HttpServiceBase
-import entities.JsonProtocol
-import utils.PersistenceModule
-import akka.http.scaladsl.marshallers.sprayjson.SprayJsonSupport
+import utils.{JsonModuleImpl, PersistenceModuleImpl}
 import akka.http.scaladsl.model.StatusCodes._
 import akka.http.scaladsl.server.Directives._
 import persistence.entities.{SimpleSupplier, Supplier}
-import SprayJsonSupport._
 import spray.json._
-import scala.concurrent.Future
 import scala.util.{Failure, Success}
-import JsonProtocol._
+
 import slick.driver.H2Driver.api._
 
 
@@ -19,7 +15,9 @@ import slick.driver.H2Driver.api._
   * Created by chris on 3/14/16.
   */
 trait supplierRouter extends HttpServiceBase{
-  this: PersistenceModule =>
+  this: PersistenceModuleImpl with JsonModuleImpl =>
+
+
 
   val supplierRouter = {
     pathPrefix("supplier") {

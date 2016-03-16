@@ -27,7 +27,10 @@ libraryDependencies ++= {
     "org.postgresql" % "postgresql" % "9.3-1100-jdbc41",
     "com.typesafe.scala-logging" %% "scala-logging" % "3.1.0",
     "ch.qos.logback" % "logback-classic" % "1.1.3",
-    "org.slf4j" % "slf4j-nop" % "1.6.4"
+    "org.slf4j" % "slf4j-nop" % "1.6.4",
+    "com.github.tototoshi" %% "slick-joda-mapper" % "2.1.0",
+    "joda-time" % "joda-time" % "2.7",
+    "org.joda" % "joda-convert" % "1.7"
   )
 }
 

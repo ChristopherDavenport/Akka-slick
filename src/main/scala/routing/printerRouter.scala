@@ -1,18 +1,13 @@
 package routing
 
 import akka.http.javadsl.server.HttpServiceBase
-import entities.JsonProtocol
+
 import persistence.entities.Printer
-import utils.PersistenceModule
-import akka.http.scaladsl.marshallers.sprayjson.SprayJsonSupport
+import utils.{PersistenceModuleImpl, JsonModuleImpl}
 import akka.http.scaladsl.model.StatusCodes._
 import akka.http.scaladsl.server.Directives._
-import JsonProtocol._
-import SprayJsonSupport._
-import spray.json._
 import slick.driver.PostgresDriver.api._
-
-
+import spray.json._
 import scala.util.{Failure, Success}
 
 /**
@@ -20,8 +15,9 @@ import scala.util.{Failure, Success}
   *
   * Currently needs to be passed a numeric id on post that will subsequently by ignored.
   */
-trait printerRouter extends HttpServiceBase {
-  this: PersistenceModule =>
+trait printerRouter extends HttpServiceBase{
+  this: PersistenceModuleImpl with JsonModuleImpl=>
+
 
   val printerRouter ={
     pathPrefix("printer"){
