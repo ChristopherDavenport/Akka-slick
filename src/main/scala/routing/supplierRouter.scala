@@ -66,13 +66,30 @@ trait supplierRouter extends HttpServiceBase{
           }
         }
       } ~
-      pathPrefix(Segment){ entered =>
-        onComplete(suppliersDal.findByFilterToOne(_.name === entered).mapTo[Option[Supplier]]){
-          case Success(supplierOpt) => supplierOpt match {
-            case Some(sup) => complete(sup.toJson)
-            case None => complete(NotFound, s"The supplier doesn't exist")
+      pathPrefix(Segment){ firstParam =>
+        pathEndOrSingleSlash{
+          get{
+            onComplete(suppliersDal.findByFilterToOne(_.name === firstParam).mapTo[Option[Supplier]]){
+              case Success(supplierOpt) => supplierOpt match {
+                case Some(sup) => complete(sup.toJson)
+                case None => complete(NotFound, s"The supplier doesn't exist - First Param Response")
+              }
+              case Failure(ex) => complete(InternalServerError, s"An error occurred: ${ex.getMessage}")
+            }
           }
-          case Failure(ex) => complete(InternalServerError, s"An error occurred: ${ex.getMessage}")
+        } ~
+        pathPrefix(Segment){ secondParam =>
+          pathEndOrSingleSlash{
+            complete(NotFound, s"The supplier doesn't exist - Second Param Response")
+          } ~
+          pathPrefix(Segment){ thirdParam =>
+            pathEndOrSingleSlash{
+              complete(NotFound, s"The supplier doesn't exist - Third Param Response")
+            } ~
+            pathPrefix(Segment){ fourthParam =>
+              complete(NotFound, s"The supplier doesn't exist - Fourth Param Response")
+            }
+          }
         }
       }
     }
