@@ -8,7 +8,7 @@ import akka.http.scaladsl.server.Route
   * Created by chris on 3/14/16.
   */
 trait RoutesModule{
-
+ val routes: Route
 }
 
 trait RoutingModuleImpl extends RoutesModule
