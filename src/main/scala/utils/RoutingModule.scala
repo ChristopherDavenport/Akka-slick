@@ -14,10 +14,11 @@ trait RoutesModule{
 trait RoutingModuleImpl extends RoutesModule
   with homeRouter
   with printerRouter
-  with supplierRouter {
+  with supplierRouter
+  with vendorRouter{
   this: PersistenceModuleImpl with JsonModuleImpl =>
 
     val routes : Route = {
-      printerRouter ~ supplierRouter ~ homeRouter ~ printerRouter
+      printerRouter ~ supplierRouter ~ homeRouter ~ printerRouter ~ vendorRouter
     }
 }

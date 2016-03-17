@@ -3,7 +3,7 @@ package utils
 import akka.http.scaladsl.marshallers.sprayjson.SprayJsonSupport
 import org.joda.time.DateTime
 import org.joda.time.format.ISODateTimeFormat
-import persistence.entities.{Printer, SimpleSupplier, Supplier}
+import persistence.entities._
 import spray.json._
 
 /**
@@ -30,11 +30,15 @@ trait JsonModule extends DefaultJsonProtocol with SprayJsonSupport{
     }
   }
 
-
 }
 
 trait JsonModuleImpl extends JsonModule{
   implicit val supplierFormat = jsonFormat3(Supplier)
   implicit val simpleSupplierFormat = jsonFormat2(SimpleSupplier)
+
   implicit val printerFormat = jsonFormat9(Printer)
+
+  implicit val vendorFormat = jsonFormat11(Vendor)
+  implicit val simpleVendorFormat = jsonFormat4(SimpleVendor)
+
 }

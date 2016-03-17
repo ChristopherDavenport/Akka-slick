@@ -1,8 +1,10 @@
 package persistence.entities
 
-import slick.driver.H2Driver.api._
+import com.github.tototoshi.slick.PostgresJodaSupport._
+import slick.driver.PostgresDriver.api._
 import slick.lifted.Tag
 import org.joda.time.DateTime
+
 
 
 abstract class BaseTable[T](tag: Tag, name: String) extends Table[T](tag, name) {
