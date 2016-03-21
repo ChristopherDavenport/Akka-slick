@@ -69,5 +69,7 @@ class VendorsTable(tag: Tag) extends StandardTable[Vendor](tag, "vendors") {
     ) <> (Vendor.tupled , Vendor.unapply)
 
   def idx = index("vendor_pk", vendor_pk, unique = true)
+
+  val pk = vendor_pk
 }
 

@@ -66,4 +66,6 @@ class ManufacturersTable(tag: Tag) extends StandardTable[Manufacturer](tag, "man
     ) <> (Manufacturer.tupled, Manufacturer.unapply)
 
   def idx = index("manufacturer_pk" , manufacturer_pk, unique = true)
+
+  val pk = manufacturer_pk
 }

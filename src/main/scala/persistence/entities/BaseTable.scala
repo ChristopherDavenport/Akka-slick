@@ -18,4 +18,6 @@ abstract class StandardTable[T](tag: Tag, name: String) extends BaseTable[T](tag
   def activity_user = column[String]("activity_user")
   def created_date = column[DateTime]("created_date")
   def created_user = column[String]("created_user")
+
+  def pk: Rep[String]
 }
