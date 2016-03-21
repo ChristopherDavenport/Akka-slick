@@ -4,13 +4,14 @@ import akka.http.scaladsl.server.Directives._
 import routing._
 import akka.http.scaladsl.server.Route
 import persistence.entities.{Manufacturer, ManufacturersTable, SimpleManufacturer}
-import routing.baseRouterImpl
+import routing.{BaseRouter, BaseRouterImpl}
 
 
 /**
   * Created by chris on 3/14/16.
   */
 trait RoutesModule{
+
  val routes: Route
 }
 
@@ -22,9 +23,9 @@ trait RoutingModuleImpl extends RoutesModule
   this: PersistenceModuleImpl with JsonModuleImpl =>
 
   val manufacturerRouter =
-    new baseRouterImpl[Manufacturer, ManufacturersTable, SimpleManufacturer]("manufacturer", manufacturersDal).route
+    new BaseRouterImpl[Manufacturer, ManufacturersTable, SimpleManufacturer]("manufacturer", manufacturersDal).route
 
-    val routes : Route = {
-      printerRouter ~ supplierRouter ~ homeRouter ~ printerRouter ~ vendorRouter ~ manufacturerRouter
-    }
+  val routes : Route = {
+    printerRouter ~ supplierRouter ~ homeRouter ~ vendorRouter ~ manufacturerRouter
+  }
 }

@@ -40,6 +40,8 @@ trait JsonModuleImpl extends JsonModule{
 
   implicit val vendorFormat = jsonFormat11(Vendor)
   implicit val simpleVendorFormat = jsonFormat4(SimpleVendor)
+
   implicit val manufacturerFormat = jsonFormat10(Manufacturer)
+  implicit val simpleManufacturerFormat = jsonFormat3(SimpleManufacturer)
 
 }

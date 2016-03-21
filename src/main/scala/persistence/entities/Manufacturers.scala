@@ -6,16 +6,17 @@ import com.github.tototoshi.slick.PostgresJodaSupport._
 /**
   * Created by chris on 3/13/16.
   */
-trait ManufacturerEntity extends SimpleEntity{
+trait ManufacturerEntity {
   def manufacturer_pk: String
   def manufacturer_desc: String
   def notes: Option[String]
-
-  def pk = manufacturer_pk
-  def pk_2 = None
-  def pk_3 = None
-  def pk_4 = None
 }
+
+case class SimpleManufacturer(
+                               manufacturer_pk: String,
+                               manufacturer_desc: String,
+                               notes: Option[String]
+                             ) extends ManufacturerEntity
 
 case class Manufacturer(
                         id: Long,
@@ -34,13 +35,13 @@ case class Manufacturer(
                         created_date: DateTime
 
 
-                        ) extends BaseEntity with ActivityEntity with CreatedEntity with StatusEntity with ManufacturerEntity
+                        ) extends BaseEntity
+  with ActivityEntity
+  with CreatedEntity
+  with StatusEntity
+  with ManufacturerEntity
 
-case class SimpleManufacturer(
-                             manufacturer_pk: String,
-                             manufacturer_desc: String,
-                             notes: Option[String]
-                             ) extends ManufacturerEntity
+
 
 class ManufacturersTable(tag: Tag) extends StandardTable[Manufacturer](tag, "manufacturers") {
   def manufacturer_pk = column[String]("manufacturer_pk")
@@ -68,4 +69,6 @@ class ManufacturersTable(tag: Tag) extends StandardTable[Manufacturer](tag, "man
   def idx = index("manufacturer_pk" , manufacturer_pk, unique = true)
 
   val pk = manufacturer_pk
+
 }
+
