@@ -32,7 +32,7 @@ case class Vendor(
                   created_user: String,
                   created_date: DateTime
 
-                 ) extends BaseEntity with ActivityEntity with CreatedEntity with StatusEntity with VendorEntity
+                 ) extends StandardEntity with VendorEntity
 
 case class SimpleVendor(
                          vendor_pk: String,

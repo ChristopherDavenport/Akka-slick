@@ -12,29 +12,36 @@ import routing.{BaseRouter, BaseRouterImpl}
   */
 trait RoutesModule{
 
- val routes: Route
+  val printerRouter: BaseRouter[Printer, PrintersTable, SimplePrinter]
+  val manufacturerRouter: BaseRouter[Manufacturer, ManufacturersTable, SimpleManufacturer]
+  val buildingRouter: BaseRouter[Building, BuildingsTable, SimpleBuilding]
+  val vendorRouter: BaseRouter[Vendor, VendorsTable, SimpleVendor]
+
+  def routes: Route
 }
 
 trait RoutingModuleImpl extends RoutesModule
   with homeRouter
-  with supplierRouter
-  with vendorRouter{
+  with supplierRouter {
   this: PersistenceModuleImpl with JsonModuleImpl =>
 
-  val printerRouter =
-    new BaseRouterImpl[Printer, PrintersTable, SimplePrinter](
-      "printer", printersDal).route
+  override val printerRouter =
+    new BaseRouterImpl[Printer, PrintersTable, SimplePrinter]("printer", printersDal)
 
-  val manufacturerRouter =
-    new BaseRouterImpl[Manufacturer, ManufacturersTable, SimpleManufacturer](
-      "manufacturer", manufacturersDal).route
+  override val manufacturerRouter =
+    new BaseRouterImpl[Manufacturer, ManufacturersTable, SimpleManufacturer]("manufacturer", manufacturersDal)
 
-  val buildingRouter =
-    new BaseRouterImpl[Building, BuildingsTable, SimpleBuilding](
-      "building", buildingsDal
-    ).route
+  override val buildingRouter =
+    new BaseRouterImpl[Building, BuildingsTable, SimpleBuilding]("building", buildingsDal)
 
-  val routes : Route = {
-    printerRouter ~ supplierRouter ~ homeRouter ~ vendorRouter ~ manufacturerRouter ~ buildingRouter
+  override val vendorRouter =
+    new BaseRouterImpl[Vendor, VendorsTable, SimpleVendor]("vendor", vendorsDal)
+
+
+  override val routes : Route = {
+    printerRouter.route ~ supplierRouter ~ homeRouter ~
+      vendorRouter.route ~ manufacturerRouter.route ~ buildingRouter.route
   }
+
+
 }
