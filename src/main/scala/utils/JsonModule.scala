@@ -48,4 +48,7 @@ trait JsonModuleImpl extends JsonModule{
   implicit val buildingFormat = jsonFormat9(Building)
   implicit val simpleBuildingFormat = jsonFormat2(SimpleBuilding)
 
+  implicit val assetGroupFormat = jsonFormat10(Asset_Group)
+  implicit val simpleAssetGroupFormat = jsonFormat3(SimpleAsset_Group)
+
 }

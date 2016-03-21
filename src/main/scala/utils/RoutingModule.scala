@@ -17,6 +17,7 @@ trait RoutesModule{
   val buildingRouter: BaseRouter[Building, BuildingsTable, SimpleBuilding]
   val vendorRouter: BaseRouter[Vendor, VendorsTable, SimpleVendor]
   val supplierRouter: BaseRouter[Supplier, SuppliersTable, SimpleSupplier]
+  val assetGroupRouter: BaseRouter[Asset_Group, Asset_GroupsTable, SimpleAsset_Group]
 
   def routes: Route
 }
@@ -40,10 +41,13 @@ trait RoutingModuleImpl extends RoutesModule
   override val supplierRouter =
     new BaseRouterImpl[Supplier, SuppliersTable, SimpleSupplier]("supplier", suppliersDal)
 
+  override val assetGroupRouter =
+    new BaseRouterImpl[Asset_Group, Asset_GroupsTable, SimpleAsset_Group]("asset-group", asset_groupsDal)
+
 
   override val routes : Route = {
     printerRouter.route ~ supplierRouter.route ~ homeRouter ~
-      vendorRouter.route ~ manufacturerRouter.route ~ buildingRouter.route
+      vendorRouter.route ~ manufacturerRouter.route ~ buildingRouter.route ~ assetGroupRouter.route
   }
 
 
