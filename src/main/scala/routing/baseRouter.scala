@@ -5,7 +5,7 @@ import akka.http.scaladsl.server.Route
 import persistence.entities.StandardTable
 import persistence.dal.BaseDal
 import spray.json.RootJsonFormat
-import utils.JsonModuleImpl
+import utils.{JsonModule, JsonModuleImpl}
 
 
 
@@ -102,14 +102,14 @@ class BaseRouterImpl[C, T <: StandardTable[C], A](name: String, dal: BaseDal[T, 
           } ~
             pathPrefix(Segment){ secondParam =>
               pathEndOrSingleSlash{
-                complete(NotFound, s"The supplier doesn't exist - Second Param Response")
+                complete(NotFound, s"The $name - $firstParam / $secondParam doesn't exist - Second Param Response")
               } ~
                 pathPrefix(Segment){ thirdParam =>
                   pathEndOrSingleSlash{
-                    complete(NotFound, s"The supplier doesn't exist - Third Param Response")
+                    complete(NotFound, s"The $name - $firstParam / $secondParam / $thirdParam doesn't exist - Third Param Response")
                   } ~
                     pathPrefix(Segment){ fourthParam =>
-                      complete(NotFound, s"The supplier doesn't exist - Fourth Param Response")
+                      complete(NotFound, s"The $name - $firstParam / $secondParam / $thirdParam / $fourthParam doesn't exist - Fourth Param Response")
                     }
                 }
             }
