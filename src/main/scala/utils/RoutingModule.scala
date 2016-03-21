@@ -24,7 +24,7 @@ trait RoutesModule{
 
 trait RoutingModuleImpl extends RoutesModule
   with homeRouter {
-  this: PersistenceModuleImpl with JsonModuleImpl =>
+  this: PersistenceModule with JsonModule =>
 
   override val printerRouter =
     new BaseRouterImpl[Printer, PrintersTable, SimplePrinter]("printer", printersDal)

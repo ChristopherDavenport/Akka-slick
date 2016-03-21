@@ -9,7 +9,7 @@ import spray.json._
 /**
   * Created by davenpcm on 3/16/2016.
   */
-trait JsonModule extends DefaultJsonProtocol with SprayJsonSupport{
+trait JsonModule {
   implicit object DateTimeFormat extends RootJsonFormat[DateTime] {
     val formatter = ISODateTimeFormat.basicDateTimeNoMillis
     def write(obj: DateTime): JsValue = {
@@ -30,25 +30,43 @@ trait JsonModule extends DefaultJsonProtocol with SprayJsonSupport{
     }
   }
 
+  implicit val supplierFormat: RootJsonFormat[Supplier]
+  implicit val simpleSupplierFormat: RootJsonFormat[SimpleSupplier]
+
+  implicit val printerFormat: RootJsonFormat[Printer]
+  implicit val simplePrinterFormat: RootJsonFormat[SimplePrinter]
+
+  implicit val vendorFormat:  RootJsonFormat[Vendor]
+  implicit val simpleVendorFormat: RootJsonFormat[SimpleVendor]
+
+  implicit val manufacturerFormat: RootJsonFormat[Manufacturer]
+  implicit val simpleManufacturerFormat: RootJsonFormat[SimpleManufacturer]
+
+  implicit val buildingFormat:  RootJsonFormat[Building]
+  implicit val simpleBuildingFormat: RootJsonFormat[SimpleBuilding]
+
+  implicit val assetGroupFormat: RootJsonFormat[Asset_Group]
+  implicit val simpleAssetGroupFormat : RootJsonFormat[SimpleAsset_Group]
+
 }
 
-trait JsonModuleImpl extends JsonModule{
-  implicit val supplierFormat = jsonFormat9(Supplier)
-  implicit val simpleSupplierFormat = jsonFormat2(SimpleSupplier)
+trait JsonModuleImpl extends DefaultJsonProtocol with JsonModule with SprayJsonSupport{
+  override val supplierFormat = jsonFormat9(Supplier)
+  override val simpleSupplierFormat = jsonFormat2(SimpleSupplier)
 
-  implicit val printerFormat = jsonFormat11(Printer)
-  implicit val simplePrinterFormat =  jsonFormat4(SimplePrinter)
+  override val printerFormat = jsonFormat11(Printer)
+  override val simplePrinterFormat =  jsonFormat4(SimplePrinter)
 
-  implicit val vendorFormat = jsonFormat11(Vendor)
-  implicit val simpleVendorFormat = jsonFormat4(SimpleVendor)
+  override val vendorFormat = jsonFormat11(Vendor)
+  override val simpleVendorFormat = jsonFormat4(SimpleVendor)
 
-  implicit val manufacturerFormat = jsonFormat10(Manufacturer)
-  implicit val simpleManufacturerFormat = jsonFormat3(SimpleManufacturer)
+  override val manufacturerFormat = jsonFormat10(Manufacturer)
+  override val simpleManufacturerFormat = jsonFormat3(SimpleManufacturer)
 
-  implicit val buildingFormat = jsonFormat9(Building)
-  implicit val simpleBuildingFormat = jsonFormat2(SimpleBuilding)
+  override val buildingFormat = jsonFormat9(Building)
+  override val simpleBuildingFormat = jsonFormat2(SimpleBuilding)
 
-  implicit val assetGroupFormat = jsonFormat10(Asset_Group)
-  implicit val simpleAssetGroupFormat = jsonFormat3(SimpleAsset_Group)
+  override val assetGroupFormat = jsonFormat10(Asset_Group)
+  override val simpleAssetGroupFormat = jsonFormat3(SimpleAsset_Group)
 
 }
