@@ -36,7 +36,8 @@ trait JsonModuleImpl extends JsonModule{
   implicit val supplierFormat = jsonFormat3(Supplier)
   implicit val simpleSupplierFormat = jsonFormat2(SimpleSupplier)
 
-  implicit val printerFormat = jsonFormat9(Printer)
+  implicit val printerFormat = jsonFormat11(Printer)
+  implicit val simplePrinterFormat =  jsonFormat4(SimplePrinter)
 
   implicit val vendorFormat = jsonFormat11(Vendor)
   implicit val simpleVendorFormat = jsonFormat4(SimpleVendor)

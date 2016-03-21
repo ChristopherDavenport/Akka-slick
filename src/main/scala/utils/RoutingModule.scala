@@ -17,10 +17,13 @@ trait RoutesModule{
 
 trait RoutingModuleImpl extends RoutesModule
   with homeRouter
-  with printerRouter
   with supplierRouter
   with vendorRouter{
   this: PersistenceModuleImpl with JsonModuleImpl =>
+
+  val printerRouter =
+    new BaseRouterImpl[Printer, PrintersTable, SimplePrinter](
+      "printer", printersDal).route
 
   val manufacturerRouter =
     new BaseRouterImpl[Manufacturer, ManufacturersTable, SimpleManufacturer](

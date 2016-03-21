@@ -20,3 +20,5 @@ trait ActivityEntity{
   val activity_date: DateTime
   val activity_user: String
 }
+
+trait StandardEntity extends BaseEntity with CreatedEntity with StatusEntity with ActivityEntity
