@@ -1,29 +1,69 @@
 package persistence.entities
 
-import java.sql.Date
+import org.joda.time.DateTime
 import slick.driver.PostgresDriver.api._
+import com.github.tototoshi.slick.PostgresJodaSupport._
 /**
   * Created by chris on 3/13/16.
   */
+trait ManufacturerEntity extends SimpleEntity{
+  def manufacturer_pk: String
+  def manufacturer_desc: String
+  def notes: Option[String]
+
+  def pk = manufacturer_pk
+  def pk_2 = None
+  def pk_3 = None
+  def pk_4 = None
+}
+
 case class Manufacturer(
                         id: Long,
+
                         manufacturer_pk: String,
                         manufacturer_desc: String,
+                        notes: Option[String],
+                       
                         status_ck: String,
-                        status_date: Option[Date],
-                        activity_date: Option[Date],
-                        user_id: Option[String],
-                        notes: Option[String]
-                        ) extends BaseEntity
+                        status_date: DateTime,
 
-class ManufacturersTable(tag: Tag) extends BaseTable[Manufacturer](tag, "manufacturers") {
+                        activity_user: String,
+                        activity_date: DateTime,
+
+                        created_user: String,
+                        created_date: DateTime
+
+
+                        ) extends BaseEntity with ActivityEntity with CreatedEntity with StatusEntity with ManufacturerEntity
+
+case class SimpleManufacturer(
+                             manufacturer_pk: String,
+                             manufacturer_desc: String,
+                             notes: Option[String]
+                             ) extends ManufacturerEntity
+
+class ManufacturersTable(tag: Tag) extends StandardTable[Manufacturer](tag, "manufacturers") {
   def manufacturer_pk = column[String]("manufacturer_pk")
   def manufacturer_desc = column[String]("manufacturer_desc")
-  def status_ck = column[String]("status_ck")
-  def status_date = column[Option[Date]]("status_date")
-  def activity_date = column[Option[Date]]("activity_date")
-  def user_id = column[Option[String]]("user_id")
   def notes = column[Option[String]]("notes")
 
-  def * = (id, manufacturer_pk, manufacturer_desc, status_ck, status_date , activity_date , user_id, notes ) <> (Manufacturer.tupled, Manufacturer.unapply _)
+  def * = (
+    id,
+
+    manufacturer_pk,
+    manufacturer_desc,
+    notes,
+
+    status_ck,
+    status_date,
+
+    activity_user,
+    activity_date,
+
+    created_user,
+    created_date
+
+    ) <> (Manufacturer.tupled, Manufacturer.unapply)
+
+  def idx = index("manufacturer_pk" , manufacturer_pk, unique = true)
 }
