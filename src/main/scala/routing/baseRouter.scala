@@ -99,7 +99,20 @@ class BaseRouterImpl[C, T <: StandardTable[C], A](name: String, dal: BaseDal[T, 
                 case Failure(ex) => complete(InternalServerError, s"An error occurred: ${ex.getMessage}")
               }
             }
-          }
+          } ~
+            pathPrefix(Segment){ secondParam =>
+              pathEndOrSingleSlash{
+                complete(NotFound, s"The supplier doesn't exist - Second Param Response")
+              } ~
+                pathPrefix(Segment){ thirdParam =>
+                  pathEndOrSingleSlash{
+                    complete(NotFound, s"The supplier doesn't exist - Third Param Response")
+                  } ~
+                    pathPrefix(Segment){ fourthParam =>
+                      complete(NotFound, s"The supplier doesn't exist - Fourth Param Response")
+                    }
+                }
+            }
         }
     }
   }

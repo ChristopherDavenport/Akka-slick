@@ -33,7 +33,7 @@ trait JsonModule extends DefaultJsonProtocol with SprayJsonSupport{
 }
 
 trait JsonModuleImpl extends JsonModule{
-  implicit val supplierFormat = jsonFormat3(Supplier)
+  implicit val supplierFormat = jsonFormat9(Supplier)
   implicit val simpleSupplierFormat = jsonFormat2(SimpleSupplier)
 
   implicit val printerFormat = jsonFormat11(Printer)
