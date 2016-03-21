@@ -2,24 +2,28 @@ package routing
 
 import akka.http.javadsl.server.HttpServiceBase
 import akka.http.scaladsl.server.Route
-import persistence.entities.{SimpleEntity, StandardTable}
+import persistence.entities.StandardTable
 import persistence.dal.BaseDal
 import spray.json.RootJsonFormat
-import utils.{JsonModuleImpl, PersistenceModuleImpl}
+import utils.JsonModuleImpl
+
 
 
 /**
   * Created by davenpcm on 3/21/2016.
   */
 
-trait BaseRouter{
+trait BaseRouter[C, T, A]{
   def route: Route
+
 }
 
-class baseRouterImpl[C <: SimpleEntity, T <: StandardTable[C], A <: SimpleEntity]
-(name: String, dal: BaseDal[T, C])(implicit val rootJsonFormat: RootJsonFormat[C])
+class BaseRouterImpl[C, T <: StandardTable[C], A](name: String, dal: BaseDal[T, C])
+(implicit val classJsonFormat: RootJsonFormat[C],
+ implicit val simpleJsonFormat: RootJsonFormat[A])
 
-  extends HttpServiceBase with BaseRouter with JsonModuleImpl{
+
+  extends HttpServiceBase with BaseRouter[C,T,A] with JsonModuleImpl{
 
   import akka.http.scaladsl.model.StatusCodes._
   import akka.http.scaladsl.server.Directives._
@@ -47,7 +51,22 @@ class baseRouterImpl[C <: SimpleEntity, T <: StandardTable[C], A <: SimpleEntity
             }
           }
       } ~
-      pathPrefix(IntNumber) { Id =>
+//      pathPrefix("simple"){
+//        pathEndOrSingleSlash{
+//          post {
+//            entity(as[Seq[A]]){
+//              valuesToInsert =>
+//                onComplete( dal.insert(
+//                  for (value <- valuesToInsert) yield convert(value)
+//                )) {
+//                  case Success(insertedEntities) => complete(Created)
+//                  case Failure(ex) => complete(InternalServerError, s"An error occurred: ${ex.getMessage}")
+//                }
+//            }
+//          }
+//        }
+//      } ~
+        pathPrefix(IntNumber) { Id =>
         pathEnd {
           get {
             onComplete(dal.findById(Id).mapTo[Option[C]]) {
